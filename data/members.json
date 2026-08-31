@@ -1,0 +1,40 @@
+{
+  "site": {
+    "base_url": "https://harmoniousfuture.github.io/cards",
+    "title": "株式会社ハモミライ｜デジタル名刺",
+    "description": "株式会社ハモミライ メンバーのデジタル名刺一覧",
+    "qr_content": "vcard"
+  },
+  "company": {
+    "name": "株式会社ハモミライ",
+    "name_en": "Harmonious Future Inc.",
+    "logo_lines": ["Harmonious", "Future"],
+    "postal_code": "221-0056",
+    "address_lines": [
+      "神奈川県横浜市神奈川区金港町5-14",
+      "クアドリフォリオ8階"
+    ],
+    "address_street": "神奈川県横浜市神奈川区金港町5-14 クアドリフォリオ8階",
+    "address_city": "横浜市",
+    "address_region": "神奈川県",
+    "address_country": "Japan",
+    "url": "https://www.harmonious-future.com",
+    "url_label": "www.harmonious-future.com",
+    "corporate_number": "4020001162197"
+  },
+  "members": [
+    {
+      "slug": "ryu_kairyu",
+      "family_name": "劉",
+      "given_name": "懐隆",
+      "name_jp": "劉 懐隆",
+      "name_en": "Ryu Kairyu",
+      "phonetic_last": "リュウ",
+      "phonetic_first": "カイリュウ",
+      "title": "COO",
+      "tagline": "ITの前に、あなたのビジネスを考える。",
+      "tel": "080-8573-0158",
+      "email": "ryu_kairyu@harmonious-future.com"
+    }
+  ]
+}
