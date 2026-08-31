@@ -8,6 +8,7 @@ data/members.json を唯一の情報源として、GitHub Pages に配置する�
   m/<slug>/index.html        個人の名刺ページ
   m/<slug>/<slug>.vcf        連絡先ファイル (vCard 3.0)
   m/<slug>/qr.png            QR コード
+  CNAME                      カスタムドメイン (site.custom_domain 設定時のみ)
 
 使い方:
   pip install segno
@@ -224,6 +225,13 @@ def main() -> int:
     company = data["company"]
     members = data["members"]
 
+    custom_domain = site.get("custom_domain", "").strip()
+    if custom_domain and custom_domain not in site["base_url"]:
+        sys.exit(
+            f"site.custom_domain ({custom_domain}) と site.base_url ({site['base_url']}) が"
+            " 食い違っています。base_url を https://<custom_domain> に合わせてください。"
+        )
+
     slugs = [m["slug"] for m in members]
     duplicates = {s for s in slugs if slugs.count(s) > 1}
     if duplicates:
@@ -255,6 +263,18 @@ def main() -> int:
 
     (ROOT / "index.html").write_text(index_page(members, company, site), encoding="utf-8")
     print(f"生成: index.html (メンバー {len(members)} 名)")
+
+    # GitHub Pages のカスタムドメイン設定。site.custom_domain を省くと CNAME を削除し、
+    # <ユーザー名>.github.io/<リポジトリ名>/ での配信に戻る。
+    cname_file = ROOT / "CNAME"
+    custom_domain = site.get("custom_domain", "").strip()
+    if custom_domain:
+        cname_file.write_text(custom_domain + "\n", encoding="utf-8")
+        print(f"生成: CNAME ({custom_domain})")
+    elif cname_file.exists():
+        cname_file.unlink()
+        print("削除: CNAME (custom_domain が未設定)")
+
     return 0
 
 

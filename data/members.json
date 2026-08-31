@@ -1,6 +1,7 @@
 {
   "site": {
-    "base_url": "https://harmoniousfuture.github.io/cards",
+    "custom_domain": "card.harmonious-future.com",
+    "base_url": "https://card.harmonious-future.com",
     "title": "株式会社ハモミライ｜デジタル名刺",
     "description": "株式会社ハモミライ メンバーのデジタル名刺一覧",
     "qr_content": "vcard"
@@ -8,7 +9,10 @@
   "company": {
     "name": "株式会社ハモミライ",
     "name_en": "Harmonious Future Inc.",
-    "logo_lines": ["Harmonious", "Future"],
+    "logo_lines": [
+      "Harmonious",
+      "Future"
+    ],
     "postal_code": "221-0056",
     "address_lines": [
       "神奈川県横浜市神奈川区金港町5-14",

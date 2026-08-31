@@ -33,10 +33,10 @@ jobs:
 
       - name: Verify committed output is up to date
         run: |
-          if ! git diff --quiet -- index.html m; then
+          if ! git diff --quiet -- index.html m CNAME; then
             echo "::error::data/members.json の変更が生成物に反映されていません。"
             echo "ローカルで 'python3 tools/build.py' を実行し、生成物をコミットしてください。"
-            git --no-pager diff --stat -- index.html m
+            git --no-pager diff --stat -- index.html m CNAME
             exit 1
           fi
 
