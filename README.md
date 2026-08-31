@@ -7,9 +7,9 @@
 
 公開 URL（Pages 有効化後）:
 
-- メンバー一覧: <https://harmoniousfuture.github.io/cards/>
-- 個人の名刺: `https://harmoniousfuture.github.io/cards/m/<slug>/`
-  - 例: <https://harmoniousfuture.github.io/cards/m/ryu_kairyu/>
+- メンバー一覧: <https://card.harmonious-future.com/>
+- 個人の名刺: `https://card.harmonious-future.com/m/<slug>/`
+  - 例: <https://card.harmonious-future.com/m/ryu_kairyu/>
 
 ## ディレクトリ構成
 
@@ -21,6 +21,7 @@ index.html                 【生成物】メンバー一覧
 m/<slug>/index.html        【生成物】個人の名刺ページ
 m/<slug>/<slug>.vcf        【生成物】連絡先ファイル (vCard 3.0)
 m/<slug>/qr.png            【生成物】vCard を格納した QR コード
+CNAME                      【生成物】カスタムドメイン
 ```
 
 `index.html` と `m/` 配下は **生成物** です。直接編集せず、`data/members.json` を直して
@@ -79,6 +80,51 @@ CI（`.github/workflows/pages.yml`）は再生成した結果とコミット済�
   そのまま配信されます。
 
 `.nojekyll` を置いているため、Jekyll による加工は行われません。
+
+## カスタムドメイン (card.harmonious-future.com)
+
+`harmonious-future.com` は XServer で管理しています。DNS 側と GitHub 側の両方の設定が必要です。
+
+### 1. XServer で DNS レコードを追加
+
+サーバーパネル → **DNSレコード設定** → `harmonious-future.com` を選択 →
+**DNSレコード追加** タブで以下を登録します。
+
+| 項目 | 値 |
+| --- | --- |
+| ホスト名 | `card` |
+| 種別 | `CNAME` |
+| 内容 | `harmoniousfuture.github.io`（末尾のドットは不要） |
+| TTL | `3600` |
+| 優先度 | `0` |
+
+- 内容はリポジトリ名を含めません。`harmoniousfuture.github.io/cards` は誤りです。
+- 既に `card` のレコード（A / CNAME）がある場合は、重複させず置き換えてください。
+- ドメインが XServer 以外のネームサーバーを向いている場合は、そちらの管理画面で
+  同じ CNAME レコードを追加します。
+
+### 2. GitHub 側の設定
+
+`CNAME` ファイル（`site.custom_domain` から自動生成）をコミット済みなので、
+`main` にマージしてデプロイすれば **Settings → Pages → Custom domain** に
+`card.harmonious-future.com` が反映されます。DNS チェックが通ったあと、
+同じ画面の **Enforce HTTPS** にチェックを入れてください。
+
+証明書（Let's Encrypt）の発行には DNS 伝播後さらに数分〜1時間ほどかかります。
+それまでは HTTPS で証明書エラーが出ますが、待てば解消します。
+
+### 3. 確認
+
+```bash
+dig card.harmonious-future.com CNAME +short   # -> harmoniousfuture.github.io.
+curl -sI https://card.harmonious-future.com/ | head -1   # -> HTTP/2 200
+```
+
+### ドメインを変更・解除する
+
+`data/members.json` の `site.custom_domain` と `site.base_url` を書き換えて再生成します。
+`custom_domain` を削除すると `CNAME` も削除され、`<ユーザー名>.github.io/<リポジトリ名>/`
+での配信に戻ります。両者が食い違っているとビルドがエラーで止まります。
 
 ## QR コードについて
 
