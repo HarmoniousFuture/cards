@@ -83,6 +83,24 @@ def build_vcard(member: dict, company: dict) -> str:
     return "\r\n".join(lines) + "\r\n"
 
 
+def logo_markup(company: dict, prefix: str) -> str:
+    """会社ロゴのマークアップを返す。
+
+    company.logo_image が設定されていれば画像ロゴ、なければ従来のテキストロゴ。
+    prefix は生成先ページから見たリポジトリルートへの相対パス。
+    """
+    logo_image = company.get("logo_image", "").strip()
+    if logo_image:
+        alt = " ".join(company["logo_lines"])
+        return (
+            f'<div class="logo has-image">'
+            f'<img src="{esc(prefix + logo_image)}" alt="{esc(alt)}ロゴ" width="92" height="92">'
+            f"</div>"
+        )
+    text = "<br>".join(esc(line) for line in company["logo_lines"])
+    return f'<div class="logo">{text}</div>'
+
+
 def card_page(member: dict, company: dict, site: dict) -> str:
     """個人の名刺ページ HTML を組み立てる。"""
     slug = member["slug"]
@@ -90,7 +108,7 @@ def card_page(member: dict, company: dict, site: dict) -> str:
     description = member.get("tagline") or f"{company['name']} {member.get('title', '')} {member['name_jp']}のデジタル名刺"
     page_url = f"{site['base_url'].rstrip('/')}/m/{slug}/"
 
-    logo_html = "<br>".join(esc(line) for line in company["logo_lines"])
+    logo_html = logo_markup(company, "../../")
     address_html = "\n".join(
         f'      <span class="label"></span>{esc(line)}<br>' for line in company["address_lines"]
     )
@@ -136,7 +154,7 @@ def card_page(member: dict, company: dict, site: dict) -> str:
 </head>
 <body>
   <div class="card">
-    <div class="logo">{logo_html}</div>
+    {logo_html}
     <div class="company">{esc(company["name"])}</div>
 
     <div class="name-block">
@@ -168,7 +186,7 @@ def card_page(member: dict, company: dict, site: dict) -> str:
 
 def index_page(members: list[dict], company: dict, site: dict) -> str:
     """メンバー一覧ページ HTML を組み立てる。"""
-    logo_html = "<br>".join(esc(line) for line in company["logo_lines"])
+    logo_html = logo_markup(company, "")
     items = "\n".join(
         f"""      <li>
         <a class="member-link" href="m/{esc(m["slug"])}/">
@@ -200,7 +218,7 @@ def index_page(members: list[dict], company: dict, site: dict) -> str:
 <body class="index">
   <div class="directory">
     <div class="head">
-      <div class="logo">{logo_html}</div>
+      {logo_html}
       <div class="company">{esc(company["name"])}</div>
       <div class="page-title">DIGITAL BUSINESS CARD</div>
     </div>
@@ -224,6 +242,13 @@ def main() -> int:
     site = data["site"]
     company = data["company"]
     members = data["members"]
+
+    logo_image = company.get("logo_image", "").strip()
+    if logo_image and not (ROOT / logo_image).is_file():
+        sys.exit(
+            f"company.logo_image に指定された {logo_image} が見つかりません。"
+            " 画像を配置するか、設定を削除してテキストロゴに戻してください。"
+        )
 
     custom_domain = site.get("custom_domain", "").strip()
     if custom_domain and custom_domain not in site["base_url"]:
