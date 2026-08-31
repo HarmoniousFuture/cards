@@ -1,0 +1,149 @@
+/* 株式会社ハモミライ デジタル名刺 共通スタイル */
+
+:root {
+  --bg: #16202f;
+  --card-bg: #1e2a3f;
+  --text: #ffffff;
+  --text-sub: #cbd5e1;
+  --text-muted: #9fb3c8;
+  --text-dim: #7f95ab;
+  --border: #33455c;
+  --link: #8ecfe0;
+  --accent-from: #22bed2;
+  --accent-to: #2652be;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+  width: 92px; height: 92px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 2px solid var(--text);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text); font-size: 11px; font-weight: bold;
+  line-height: 1.35; letter-spacing: 0.5px;
+}
+
+.company { color: var(--text); font-size: 20px; letter-spacing: 3px; }
+
+.name-block { color: var(--text); margin: 22px 0 4px; }
+.title-label { font-size: 11px; letter-spacing: 3px; color: var(--text-muted); }
+.name-jp { font-size: 23px; font-weight: bold; margin: 5px 0; letter-spacing: 2px; }
+.name-en { font-size: 14px; color: var(--text-sub); }
+.tagline { color: var(--text-muted); font-size: 12px; margin-top: 10px; line-height: 1.7; }
+
+.qr-wrap {
+  background: #fff; display: inline-block;
+  padding: 10px; border-radius: 12px;
+  margin: 22px 0 10px; line-height: 0;
+}
+.qr-wrap img { display: block; width: 210px; height: 210px; }
+.hint { color: var(--text-muted); font-size: 12px; line-height: 1.6; }
+
+.save-btn {
+  display: block;
+  margin: 20px auto 4px;
+  padding: 14px 20px;
+  background: linear-gradient(90deg, var(--accent-from), var(--accent-to));
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.save-btn:active { opacity: 0.85; }
+.save-note { color: var(--text-dim); font-size: 11px; }
+
+.contact {
+  color: var(--text-sub); font-size: 12px; line-height: 1.9;
+  margin-top: 22px; text-align: left;
+  border-top: 1px solid var(--border); padding-top: 16px;
+}
+.contact a { color: var(--link); text-decoration: none; }
+.contact .label { color: var(--text-dim); display: inline-block; width: 62px; }
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--text-dim);
+  font-size: 12px;
+  text-decoration: none;
+}
+.back-link:hover { color: var(--link); }
+
+/* ---- メンバー一覧ページ ---- */
+
+body.index { align-items: flex-start; }
+
+.directory {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+.directory .head { text-align: center; }
+.directory .page-title {
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin: 18px 0 24px;
+}
+
+.member-list { list-style: none; margin: 0; padding: 0; }
+.member-list li { border-top: 1px solid var(--border); }
+.member-list li:last-child { border-bottom: 1px solid var(--border); }
+
+.member-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 4px;
+  text-decoration: none;
+}
+.member-link .who { text-align: left; }
+.member-link .who > span { display: block; }
+.member-link .m-title { color: var(--text-muted); font-size: 11px; letter-spacing: 2px; }
+.member-link .m-name-jp { color: var(--text); font-size: 18px; font-weight: bold; margin: 3px 0; letter-spacing: 1px; }
+.member-link .m-name-en { color: var(--text-sub); font-size: 12px; }
+.member-link .chevron { color: var(--text-dim); font-size: 18px; }
+.member-link:hover .m-name-jp { color: var(--link); }
+
+.site-foot {
+  color: var(--text-dim);
+  font-size: 11px;
+  line-height: 1.9;
+  text-align: center;
+  margin-top: 24px;
+}
+.site-foot a { color: var(--link); text-decoration: none; }
+
+@media (max-width: 480px) {
+  body { padding: 24px 14px; }
+  .card, .directory { padding: 28px 22px; }
+}
