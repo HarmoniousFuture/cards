@@ -17,6 +17,7 @@
 data/members.json          会社情報・メンバー情報（ここだけ編集する）
 tools/build.py             サイトジェネレータ
 assets/css/card.css        共通スタイル
+assets/img/company_logo.png 会社ロゴ
 index.html                 【生成物】メンバー一覧
 m/<slug>/index.html        【生成物】個人の名刺ページ
 m/<slug>/<slug>.vcf        【生成物】連絡先ファイル (vCard 3.0)
@@ -119,6 +120,18 @@ CI（`.github/workflows/pages.yml`）は再生成した結果とコミット済�
 dig card.harmonious-future.com CNAME +short   # -> harmoniousfuture.github.io.
 curl -sI https://card.harmonious-future.com/ | head -1   # -> HTTP/2 200
 ```
+
+## 会社ロゴを差し替える
+
+`assets/img/company_logo.png` を置き換えて `python3 tools/build.py` を実行します。
+参照先は `data/members.json` の `company.logo_image` で指定しており、
+指定したファイルが存在しない場合はビルドがエラーで止まります。
+
+- ロゴは 92px の円に切り抜いて表示します。正方形の画像を想定しています。
+- 画像内のマーク周囲に余白がある分は、`assets/css/card.css` の `--logo-zoom`
+  （既定 `1.6`）で拡大して調整しています。ロゴを差し替えて余白の比率が変わったら
+  この値を見直してください。
+- `company.logo_image` を削除すると、`company.logo_lines` を使ったテキストロゴに戻ります。
 
 ### ドメインを変更・解除する
 
