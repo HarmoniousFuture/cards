@@ -187,6 +187,8 @@ def card_page(member: dict, company: dict, site: dict) -> str:
 def index_page(members: list[dict], company: dict, site: dict) -> str:
     """メンバー一覧ページ HTML を組み立てる。"""
     logo_html = logo_markup(company, "")
+    # 建物名が行の途中で折り返さないよう、住所は元の行構成のまま改行する
+    address_html = "<br>\n      ".join(esc(line) for line in company["address_lines"])
     items = "\n".join(
         f"""      <li>
         <a class="member-link" href="m/{esc(m["slug"])}/">
@@ -228,7 +230,7 @@ def index_page(members: list[dict], company: dict, site: dict) -> str:
     </ul>
 
     <div class="site-foot">
-      〒{esc(company["postal_code"])} {esc(company["address_lines"][0])}<br>
+      〒{esc(company["postal_code"])} {address_html}<br>
       <a href="{esc(company["url"])}" target="_blank" rel="noopener">{esc(company["url_label"])}</a>
     </div>
   </div>
