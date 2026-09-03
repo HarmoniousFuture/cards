@@ -40,6 +40,19 @@
       "tagline": "ITの前に、あなたのビジネスを考える。",
       "tel": "080-8573-0158",
       "email": "ryu_kairyu@harmonious-future.com"
+    },
+    {
+      "slug": "oyama_chiaki",
+      "family_name": "大山",
+      "given_name": "千晶",
+      "name_jp": "大山 千晶",
+      "name_en": "Oyama Chiaki",
+      "phonetic_last": "オオヤマ",
+      "phonetic_first": "チアキ",
+      "title": "SES事業部",
+      "tagline": "ITの前に、あなたのビジネスを考える。",
+      "tel": "080-8093-7996",
+      "email": "oyama_chiaki@harmonious-future.com"
     }
   ]
 }
